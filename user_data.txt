@@ -1,0 +1,36 @@
+#cloud-config
+# vim: syntax=yaml
+#
+# Disable Centos' broken requiretty in /etc/sudoers so that vagrant can run shell scripts
+write_files:
+-   path: /etc/sudoers.d/999-vagrant-cloud-init-requiretty
+    permissions: '440'
+    content: |
+        Defaults:centos !requiretty
+# add the EPEL repo from which we will also install Puppet
+yum_repos:
+  epel-release:
+    baseurl: https://dl.fedoraproject.org/pub/epel/7/$basearch
+    enabled: true
+    gpgcheck: true
+    gpgkey: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+    name: Extra Packages for Enterprise Linux 7 - Release
+packages:
+ - wget
+ - git
+ - puppet
+ - rubygems   # Used to install librarian-puppet
+ - python-pip # Used to install awscli
+# Upgrade the instance on first boot
+package_upgrade: false
+bootcmd:
+ - passwd --lock root
+# set the locale
+locale: en_US.UTF-8
+# timezone: set the timezone for this instance (ALWAYS user UTC!)
+timezone: UTC
+# - [ cloud-init-per, once, localectl set-locale, LANG=en_US.utf8 ]
+#
+# cloud-init is idempotent but fragile when edited
+# if the puppet binary can't be found then it's a good indication that something in cloud-init (here) has broken
+# not doing user management here because it breaks Vagrant's user handling for SSH keys
