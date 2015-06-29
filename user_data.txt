@@ -22,15 +22,7 @@ packages:
  - rubygems   # Used to install librarian-puppet
  - python-pip # Used to install awscli
 # Upgrade the instance on first boot
-package_upgrade: false
+package_upgrade: true
 bootcmd:
  - passwd --lock root
-# set the locale
 locale: en_US.UTF-8
-# timezone: set the timezone for this instance (ALWAYS user UTC!)
-timezone: UTC
-# - [ cloud-init-per, once, localectl set-locale, LANG=en_US.utf8 ]
-#
-# cloud-init is idempotent but fragile when edited
-# if the puppet binary can't be found then it's a good indication that something in cloud-init (here) has broken
-# not doing user management here because it breaks Vagrant's user handling for SSH keys
