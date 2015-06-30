@@ -1,13 +1,6 @@
 #!/usr/bin/env ruby
 #^syntax detection
 
-#forge "https://forgeapi.puppetlabs.com"
-
-# use dependencies defined in metadata.json
-#metadata
-
-
-# start default/favourite packages
 mod 'saz-timezone',
   :git => 'git://github.com/saz/puppet-timezone'
 
