@@ -21,8 +21,16 @@ packages:
  - puppet
  - rubygems   # Used to install librarian-puppet
  - python-pip # Used to install awscli
+ - cloud-utils
 # Upgrade the instance on first boot
-package_upgrade: true
+package_upgrade: false  # do use for Cloudformation. Dont use for Vagrant.
 bootcmd:
  - passwd --lock root
 locale: en_US.UTF-8
+runcmd:
+ # Install AWS CLI
+ - pip install awscli
+ # Install librarian-puppet for retrieving dependent puppet modules from github
+ - gem install librarian-puppet
+ # Add github.com to known_hosts
+ - ssh -T -oStrictHostKeyChecking=no git@github.com
