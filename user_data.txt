@@ -26,11 +26,13 @@ packages:
 package_upgrade: false  # do use for Cloudformation. Dont use for Vagrant.
 bootcmd:
  - passwd --lock root
+ - export PATH=$PATH:/usr/local/bin # for librarian-puppet
 locale: en_US.UTF-8
 runcmd:
- # Install AWS CLI
+# Install AWS CLI for retrieving metadata from AWS
  - pip install awscli
- # Install librarian-puppet for retrieving dependent puppet modules from github
+# Install librarian-puppet and retrieve dependent puppet modules from repo
  - gem install librarian-puppet
- # Add github.com to known_hosts
- - ssh -T -oStrictHostKeyChecking=no git@github.com
+ - git clone https://github.com/awaddell/CPC-Puppet.git
+ - cd CPC-Puppet/ && HOME=/root librarian-puppet install
+ - puppet apply --modulepath=modules/ manifests/site.pp
