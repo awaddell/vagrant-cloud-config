@@ -35,14 +35,12 @@ Vagrant.configure("2") do |config|
             'Ebs.DeleteOnTermination' => true 
             }
         ]
+        aws.tags = {
+          'Name' => 'web',
+          'Stopalizer' => 'false'
+        }
     end
    
     config.vm.synced_folder "./", "/vagrant", disabled: true
-    
-    # config.vm.provision :puppet do |puppet|
-    #    puppet.synced_folder_type = "rsync"
-    #    puppet.manifests_path = 'manifests'
-    #    puppet.manifest_file = 'site.pp'
-    #    puppet.module_path = ['modules']
-    # end
+
 end
